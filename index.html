@@ -62,7 +62,7 @@
         .container { width: 100%; max-width: 450px; padding: 15px; padding-bottom: 140px; }
 
         /* Typography */
-        h1 { margin: 0; font-size: 1rem; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; color: var(--text-main); text-align: center; }
+        h1 { margin: 0; font-size: 0.95rem; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; color: var(--text-main); text-align: center; width: 100%; }
         .text-xs { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
         .text-muted { color: var(--text-muted); font-size: 0.8rem; }
         .text-xl { font-size: 1.85rem; font-weight: 900; letter-spacing: -0.05em; margin: 2px 0; }
@@ -122,14 +122,14 @@
 
         /* Category Items - Kompak & Presisi */
         .category-item {
-            min-width: 58px; padding: 6px 2px; border-radius: 0.85rem; border: 1.5px solid var(--border);
+            min-width: 58px; padding: 8px 2px; border-radius: 1rem; border: 1.5px solid var(--border);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.2s; background: var(--card-bg); flex-shrink: 0;
         }
         .category-item span:first-child { font-size: 1.1rem; margin-bottom: 2px; }
         .category-item span:last-child { font-size: 0.45rem; font-weight: 800; text-transform: uppercase; text-align: center; color: var(--text-muted); width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .category-item.selected { border-color: var(--primary); background: var(--primary-glow); transform: translateY(-2px); box-shadow: var(--glow); }
-        .category-item.selected span:last-child { color: var(--primary); opacity: 1; }
+        .category-item.selected span:last-child { color: var(--primary); }
 
         .item-row { padding: 10px 14px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 1rem; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
 
@@ -196,7 +196,7 @@
         </div>
     </div>
 
-    <!-- Main -->
+    <!-- Main App Container -->
     <div id="main-app" class="container hide">
         
         <!-- HEADER -->
@@ -338,6 +338,11 @@
             <div class="app-shell">
                 <div class="section">
                     <h1>Kategori & Dompet</h1>
+                    <p class="text-xs" style="margin: 15px 0 10px 0; opacity: 0.6; text-align: center;">Tambah Dompet Baru</p>
+                    <div class="flex gap-2" style="margin-bottom:15px;">
+                        <input type="text" id="new-wallet-name" class="input-hd" placeholder="NAMA DOMPET..." style="margin: 0;">
+                        <button onclick="addNewWallet()" class="nav-btn" style="background:var(--success); color:white; border:none; width: 50px;">+</button>
+                    </div>
                     <p class="text-xs" style="margin: 15px 0 10px 0; opacity: 0.6; text-align: center;">Tambah Kategori Kustom</p>
                     <div class="flex gap-2" style="margin-bottom:15px;">
                         <select id="new-cat-icon" class="input-hd" style="width: 70px; margin: 0; padding: 10px;">
@@ -349,16 +354,13 @@
                         <button onclick="addNewCategory()" class="nav-btn" style="background:var(--primary); color:white; border:none;">+</button>
                     </div>
                     <div id="categories-manage-list" style="margin-bottom:25px;"></div>
-
-                    <p class="text-xs" style="margin-bottom:10px; opacity: 0.6; text-align: center;">Manajemen Saldo</p>
                     <div id="wallets-manage-list" style="margin-bottom:25px;"></div>
-
                     <button onclick="handleLogout()" style="width:100%; padding:14px; border-radius:1rem; background:#fee2e2; color:#b91c1c; font-weight:800; border:none; cursor:pointer; font-size: 0.75rem;">KELUAR SESI</button>
                 </div>
             </div>
         </div>
 
-        <!-- NAV -->
+        <!-- BOTTOM NAVIGATION -->
         <nav class="bottom-nav" id="bottom-nav">
             <div class="nav-item active" id="nav-finance" onclick="switchView('finance')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2.5" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3 1.343 3 3-1.343 3-3 3m0-12c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3m0 12a3 3 0 100-6 3 3 0 000 6z"/></svg>Baki</div>
             <div class="nav-item" id="nav-goals" onclick="switchView('goals')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Target</div>
@@ -369,41 +371,48 @@
     </div>
 
     <!-- MODALS -->
-    <div id="modal-exit" class="modal"><div class="modal-content" style="text-align: center;"><div style="font-size: 3rem; margin-bottom: 20px;">🚪</div><h3>Keluar Aplikasi?</h3><p class="text-muted" style="margin-bottom: 30px;">Tutup sesi Anda sekarang?</p><div class="grid-2"><button onclick="closeExitModal(false)" class="btn-main" style="background: var(--border); color: var(--text-main);">Batal</button><button onclick="closeExitModal(true)" class="btn-main" style="background: var(--primary);">Keluar</button></div></div></div>
+    <div id="modal-exit" class="modal"><div class="modal-content" style="text-align: center;"><div style="font-size: 3rem; margin-bottom: 20px;">🚪</div><h3>Keluar Aplikasi?</h3><div class="grid-2"><button onclick="closeExitModal(false)" class="btn-main" style="background: var(--border); color: var(--text-main);">Batal</button><button onclick="closeExitModal(true)" class="btn-main" style="background: var(--primary);">Keluar</button></div></div></div>
     <div id="modal-confirm" class="modal"><div class="modal-content" style="text-align: center;"><div style="font-size: 3rem; margin-bottom: 20px;">🛡️</div><h3>Konfirmasi</h3><p id="confirm-msg" class="text-muted" style="margin-bottom: 30px;"></p><div class="grid-2"><button onclick="closeConfirm(false)" class="btn-main" style="background: var(--border); color: var(--text-main);">Batal</button><button onclick="closeConfirm(true)" class="btn-main" style="background: var(--danger);">Eksekusi</button></div></div></div>
     <div id="modal-prompt" class="modal"><div class="modal-content"><h3 id="prompt-title" style="margin-bottom: 20px; text-align: center;">Update Nilai</h3><input type="text" id="prompt-input" class="input-hd" style="text-align: center; font-size: 1.3rem; margin-bottom: 30px;" oninput="formatAmountInput(this)"><div class="grid-2"><button onclick="closePrompt(false)" class="btn-main" style="background: var(--border); color: var(--text-main);">Batal</button><button onclick="closePrompt(true)" class="btn-main">Simpan</button></div></div></div>
     <div id="bill-modal" class="modal"><div class="modal-content"><div class="flex" style="margin-bottom: 20px;"><h2>Kelola Tagihan</h2><button class="nav-btn" style="border:none;" onclick="toggleModal('bill-modal')">✕</button></div><div id="quick-bill-list-full" class="no-scrollbar" style="max-height: 200px; overflow-y: auto;"></div><div style="margin-top:20px; padding-top: 20px; border-top: 1px solid var(--border);"><input type="text" id="bill-name" placeholder="NAMA TAGIHAN" class="input-hd"><div class="grid-2"><input type="date" id="bill-date" class="input-hd"><input type="text" id="bill-amount" placeholder="NOMINAL" class="input-hd" oninput="formatAmountInput(this)"></div><button onclick="addNewBill()" class="btn-main">Simpan Tagihan</button></div></div></div>
     <div id="pay-confirm-modal" class="modal"><div class="modal-content" style="text-align:center;"><h3>Pembayaran</h3><p id="pay-detail" class="text-muted" style="margin-bottom:20px;"></p><select id="pay-wallet-select" class="input-hd" style="text-align:center;"></select><div class="grid-2"><button onclick="toggleModal('pay-confirm-modal')" class="btn-main" style="background:var(--border); color:var(--text-main);">Batal</button><button onclick="confirmPayment()" class="btn-main" style="background:var(--success);">Bayar</button></div></div></div>
 
     <script>
-        // --- DATABASE & STATE ---
-        let users = JSON.parse(localStorage.getItem('kf_users')) || [{ id: 'u_1', username: 'admin', password: '123', displayName: '' }];
-        let currentUser = JSON.parse(localStorage.getItem('kf_current_session')) || null;
-        let transactions = []; let wallets = []; let bills = []; let goals = []; let budgets = [];
-        let categories = [{ icon: '🍱', name: 'Makan' }, { icon: '🛒', name: 'Belanja' }, { icon: '☕', name: 'Jajan' }, { icon: '🚌', name: 'Transport' }, { icon: '🛍️', name: 'Hobi' }, { icon: '💡', name: 'Tagihan' }];
-        let currentTxMode = 'income'; let lastScrollTop = 0; let selectedTxCategory = null; let selectedBudgetCategory = null; let pendingBill = null;
+        /**
+         * DATA STATE & INITIALIZATION
+         */
+        const initialUsers = [{ id: 'u_1', username: 'admin', password: '123', displayName: '' }];
+        let users = initialUsers;
+        let currentUser = null;
+        let transactions = [];
+        let wallets = [{ id: 'w_1', name: 'TUNAI', balance: 0 }, { id: 'w_2', name: 'BANK', balance: 0 }];
+        let bills = [];
+        let goals = [];
+        let budgets = [];
+        let categories = [
+            { icon: '🍱', name: 'Makan' }, { icon: '🛒', name: 'Belanja' }, 
+            { icon: '☕', name: 'Jajan' }, { icon: '🚌', name: 'Transport' }, 
+            { icon: '🛍️', name: 'Hobi' }, { icon: '💡', name: 'Tagihan' }
+        ];
+
+        let currentTxMode = 'income';
+        let selectedTxCategory = categories[0];
+        let selectedBudgetCategory = categories[0];
         let activeView = 'finance';
+        let pendingBill = null;
+        let lastScrollTop = 0;
         let confirmCallbackFn = null;
         let promptCallbackFn = null;
 
-        // --- GLOBAL FUNCTIONS (Dideklarasikan di awal untuk akses global) ---
-        function applyTheme(isDark) { document.body.setAttribute('data-theme', isDark ? 'dark' : 'light'); localStorage.setItem('kf_theme', isDark ? 'dark' : 'light'); }
-        function showNotice(msg) { const t = document.getElementById('toast'); if(t){ t.innerText = msg; t.style.opacity = 1; setTimeout(() => t.style.opacity = 0, 2000); } }
-        function toggleModal(id) { const m = document.getElementById(id); if(m) m.classList.toggle('active'); }
+        /**
+         * CORE LOGIC FUNCTIONS
+         */
         function formatRupiah(n) { return "Rp " + (n || 0).toLocaleString('id-ID'); }
         function parseFormattedValue(str) { if(!str) return 0; const cleanStr = String(str).replace(/\./g, ""); return parseFloat(cleanStr) || 0; }
         function formatAmountInput(input) { if(!input) return; let v = input.value.replace(/\D/g, ""); input.value = v.replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
-
-        function handleLogin() {
-            const uInput = document.getElementById('login-user'); const pInput = document.getElementById('login-pass');
-            if(!uInput || !pInput) return;
-            const u = uInput.value.trim(); const p = pInput.value.trim();
-            const user = users.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
-            if(user) { currentUser = user; localStorage.setItem('kf_current_session', JSON.stringify(currentUser)); loadUserData(); document.getElementById('login-screen').classList.add('hide'); document.getElementById('main-app').classList.remove('hide'); initApp(); }
-            else showNotice("AKSES DITOLAK!");
-        }
-
-        function handleLogout() { localStorage.removeItem('kf_current_session'); location.reload(); }
+        function showNotice(msg) { const t = document.getElementById('toast'); if(t){ t.innerText = msg; t.style.opacity = 1; setTimeout(() => t.style.opacity = 0, 2000); } }
+        function toggleModal(id) { const m = document.getElementById(id); if(m) m.classList.toggle('active'); }
+        function applyTheme(isDark) { document.body.setAttribute('data-theme', isDark ? 'dark' : 'light'); try { localStorage.setItem('kf_theme', isDark ? 'dark' : 'light'); } catch(e){} }
 
         function switchView(id) { 
             activeView = id; 
@@ -420,35 +429,147 @@
             window.history.pushState({ view: id }, ""); 
         }
 
+        function handleLogin() {
+            const uEl = document.getElementById('login-user'); const pEl = document.getElementById('login-pass');
+            if(!uEl || !pEl) return;
+            const u = uEl.value.trim(); const p = pEl.value.trim();
+            const user = users.find(x => x.username.toLowerCase() === u.toLowerCase() && x.password === p);
+            if(user) { 
+                currentUser = user; 
+                try { localStorage.setItem('kf_current_session', JSON.stringify(currentUser)); } catch(e){}
+                loadUserData(); 
+                document.getElementById('login-screen').classList.add('hide'); 
+                document.getElementById('main-app').classList.remove('hide'); 
+                initApp(); 
+            } else showNotice("AKSES DITOLAK!");
+        }
+
+        function handleLogout() { try { localStorage.removeItem('kf_current_session'); } catch(e){} location.reload(); }
+
         function loadUserData() {
             if(!currentUser) return;
             const uid = currentUser.id;
-            transactions = JSON.parse(localStorage.getItem(`kf_log_${uid}`)) || [];
-            const thirtyDaysInMs = 30 * 24 * 60 * 60 * 1000;
+            try {
+                transactions = JSON.parse(localStorage.getItem(`kf_log_${uid}`)) || [];
+                wallets = JSON.parse(localStorage.getItem(`kf_wallets_${uid}`)) || [{ id: 'w_1', name: 'TUNAI', balance: 0 }, { id: 'w_2', name: 'BANK', balance: 0 }];
+                bills = JSON.parse(localStorage.getItem(`kf_bills_${uid}`)) || [];
+                goals = JSON.parse(localStorage.getItem(`kf_goals_${uid}`)) || [];
+                budgets = JSON.parse(localStorage.getItem(`kf_budgets_${uid}`)) || [];
+                const savedCats = JSON.parse(localStorage.getItem(`kf_cats_${uid}`)); if(savedCats) categories = savedCats;
+                const savedUsers = JSON.parse(localStorage.getItem('kf_users')); if(savedUsers) users = savedUsers;
+            } catch(e){}
+
+            const limit = 30 * 24 * 60 * 60 * 1000;
             const now = Date.now();
-            transactions = transactions.filter(t => (now - (t.timestamp || 0)) < thirtyDaysInMs);
-            bills = JSON.parse(localStorage.getItem(`kf_bills_${uid}`)) || [];
-            goals = JSON.parse(localStorage.getItem(`kf_goals_${uid}`)) || [];
-            budgets = JSON.parse(localStorage.getItem(`kf_budgets_${uid}`)) || [];
-            const savedCats = JSON.parse(localStorage.getItem(`kf_cats_${uid}`)); if(savedCats) categories = savedCats;
-            selectedTxCategory = categories[0]; selectedBudgetCategory = categories[0];
-            wallets = JSON.parse(localStorage.getItem(`kf_wallets_${uid}`)) || [{ id: 'w_1', name: 'TUNAI', icon: '💵', balance: 0 }, { id: 'w_2', name: 'BANK', icon: '🏦', balance: 0 }];
-            
-            const welcomeText = document.getElementById('welcome-text'); if (welcomeText) welcomeText.innerText = `Halo, ${(currentUser.displayName || currentUser.username).toUpperCase()}`;
-            saveData(); 
+            transactions = transactions.filter(t => (now - (t.timestamp || 0)) < limit);
+            selectedTxCategory = categories[0];
+            selectedBudgetCategory = categories[0];
+            saveData();
         }
 
-        function saveData() { if(!currentUser) return; const uid = currentUser.id; localStorage.setItem(`kf_log_${uid}`, JSON.stringify(transactions)); localStorage.setItem(`kf_wallets_${uid}`, JSON.stringify(wallets)); localStorage.setItem(`kf_bills_${uid}`, JSON.stringify(bills)); localStorage.setItem(`kf_goals_${uid}`, JSON.stringify(goals)); localStorage.setItem(`kf_budgets_${uid}`, JSON.stringify(budgets)); localStorage.setItem(`kf_cats_${uid}`, JSON.stringify(categories)); localStorage.setItem('kf_users', JSON.stringify(users)); }
+        function saveData() {
+            if(!currentUser) return;
+            const uid = currentUser.id;
+            try {
+                localStorage.setItem(`kf_log_${uid}`, JSON.stringify(transactions));
+                localStorage.setItem(`kf_wallets_${uid}`, JSON.stringify(wallets));
+                localStorage.setItem(`kf_bills_${uid}`, JSON.stringify(bills));
+                localStorage.setItem(`kf_goals_${uid}`, JSON.stringify(goals));
+                localStorage.setItem(`kf_budgets_${uid}`, JSON.stringify(budgets));
+                localStorage.setItem(`kf_cats_${uid}`, JSON.stringify(categories));
+                localStorage.setItem('kf_users', JSON.stringify(users));
+            } catch(e){}
+        }
 
+        /**
+         * RENDERING UI COMPONENTS
+         */
         function updateUI() {
             if(!currentUser) return;
-            let total = 0; const wc = document.getElementById('wallets-container'); const ws = document.getElementById('wallet-select');
-            if (wc) wc.innerHTML = ''; if (ws) ws.innerHTML = '';
-            wallets.forEach(w => { total += w.balance; if(wc) wc.innerHTML += `<div class="wallet-card"><div style="font-size:32px; margin-bottom: 8px;">${w.icon}</div><p class="text-xs" style="margin-bottom: 4px;">${w.name}</p><p style="font-weight:900; margin:0; font-size:1.1rem; letter-spacing: -0.02em;">${formatRupiah(w.balance)}</p></div>`; if(ws) ws.innerHTML += `<option value="${w.id}">${w.icon} ${w.name}</option>`; });
-            const tb = document.getElementById('total-balance'); if(tb) tb.innerText = formatRupiah(total);
+            let total = 0;
+            const wc = document.getElementById('wallets-container');
+            const ws = document.getElementById('wallet-select');
+            const wts = document.getElementById('wallet-to-select');
+            
+            if(wc) wc.innerHTML = '';
+            if(ws) ws.innerHTML = '';
+            if(wts) wts.innerHTML = '';
+
+            wallets.forEach(w => {
+                total += w.balance;
+                if(wc) wc.innerHTML += `<div class="wallet-card"><div style="font-size:32px; margin-bottom: 12px;">🏦</div><p class="text-xs" style="margin-bottom: 4px;">${w.name}</p><p style="font-weight:900; margin:0; font-size:1.1rem; letter-spacing: -0.02em;">${formatRupiah(w.balance)}</p></div>`;
+                if(ws) ws.innerHTML += `<option value="${w.id}">${w.name}</option>`;
+                if(wts) wts.innerHTML += `<option value="${w.id}">${w.name}</option>`;
+            });
+
+            const tb = document.getElementById('total-balance');
+            if(tb) tb.innerText = formatRupiah(total);
+
+            renderTransactionList();
+            renderGoals();
+            renderBudgets();
+            renderBills();
+            renderCategoriesManage();
+            renderWalletsManage();
+            updateReportChart();
+            
+            const welcomeText = document.getElementById('welcome-text');
+            if(welcomeText) welcomeText.innerText = `Halo, ${(currentUser.displayName || currentUser.username).toUpperCase()}`;
+        }
+
+        function renderTransactionList() {
             const list = document.getElementById('transaction-list');
-            if (list) { list.innerHTML = transactions.length === 0 ? '<p style="text-align:center; opacity:0.3; padding:40px;">Kosong</p>' : ''; transactions.slice().reverse().forEach(t => { list.innerHTML += `<div class="item-row"><div style="display:flex; gap:14px; align-items:center;"><div style="font-size:1.1rem;">${t.catIcon || '💰'}</div><div><b style="font-size:0.75rem;">${(t.catName || 'Umum').toUpperCase()}</b><br><small style="font-size:0.6rem; color:var(--text-muted); font-weight: 700;">${t.date}</small></div></div><div style="font-weight:900; font-size: 0.8rem; color:${t.type=='income'?'var(--success)':'var(--danger)'}">${t.type=='income'?'+':'-'}${formatRupiah(t.amount)}</div></div>`; }); }
-            updateReportChart(); renderGoals(); renderBills(); renderWalletsManage(); renderBudgets(); renderCategoriesManage();
+            if(!list) return;
+            list.innerHTML = transactions.length === 0 ? '<p style="text-align:center; opacity:0.3; padding:40px;">Belum ada riwayat</p>' : '';
+            transactions.slice().reverse().forEach(t => {
+                list.innerHTML += `<div class="item-row"><div style="display:flex; gap:14px; align-items:center;"><div style="font-size:1.1rem;">${t.catIcon || '💰'}</div><div><b style="font-size:0.75rem;">${(t.catName || 'Umum').toUpperCase()}</b><br><small style="font-size:0.6rem; color:var(--text-muted); font-weight: 700;">${t.date}</small></div></div><div style="font-weight:900; font-size: 0.8rem; color:${t.type=='income'?'var(--success)':'var(--danger)'}">${t.type=='income'?'+':'-'}${formatRupiah(t.amount)}</div></div>`;
+            });
+        }
+
+        function renderBills() {
+            const ql = document.getElementById('quick-bill-list'); const fl = document.getElementById('quick-bill-list-full');
+            if(ql) ql.innerHTML = ''; if(fl) fl.innerHTML = '';
+            if(bills.length === 0) { if(ql) ql.innerHTML = '<p class="text-xs" style="opacity:0.3;">Kosong</p>'; return; }
+            bills.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach(b => {
+                const item = `<div class="item-row" style="background:var(--card-bg); padding: 12px; border-radius: 1rem;"><div><b style="font-size:0.75rem;">${b.name}</b><br><small style="font-size:0.65rem;">${b.date}</small></div><div style="text-align:right;"><b style="font-size:0.75rem; display:block;">${formatRupiah(b.amount)}</b><div style="display:flex; gap:8px; align-items:center; margin-top:4px;"><button onclick="initPayment('${b.id}')" style="background:var(--success); border:none; color:white; font-size:0.6rem; padding:4px 10px; border-radius:8px; font-weight:900;">BAYAR</button><button onclick="openConfirmModal('Hapus tagihan?', ()=>{deleteBillAction('${b.id}')})" style="color:var(--danger); background:none; border:none; font-size:12px;">✕</button></div></div></div>`;
+                if(ql) ql.innerHTML += item; if(fl) fl.innerHTML += item;
+            });
+        }
+
+        function renderGoals() {
+            const gl = document.getElementById('goals-list'); if(!gl) return;
+            gl.innerHTML = goals.length === 0 ? '<p style="text-align:center; opacity:0.3; padding: 20px;">Kosong</p>' : '';
+            goals.forEach(g => {
+                const p = Math.min(Math.round((g.current/g.target)*100), 100);
+                gl.innerHTML += `<div class="chart-container" style="padding: 16px; margin-bottom: 12px;"><div class="flex"><b>${g.name}</b><span style="font-weight:900; color:var(--primary);">${p}%</span></div><div class="glow-bar" style="height: 8px;"><div class="glow-fill-inc" style="width:${p}%"></div></div><div class="flex" style="margin-top:10px; font-size:0.7rem; font-weight:700;"><span>${formatRupiah(g.current)}</span><span class="text-muted">Target: ${formatRupiah(g.target)}</span></div><div style="text-align:right; margin-top:15px;"><button onclick="openPromptModal('Update Progress', ${g.current}, (v)=>{updateGoalAction('${g.id}', v)})" style="background:none; border:none; color:var(--primary); font-weight:800; font-size:0.65rem; cursor:pointer;">UPDATE</button><button onclick="openConfirmModal('Hapus target ini?', ()=>{deleteGoalAction('${g.id}')})" style="background:none; border:none; color:var(--danger); font-weight:800; font-size:0.65rem; cursor:pointer; margin-left:12px;">HAPUS</button></div></div>`;
+            });
+        }
+
+        function renderBudgets() {
+            const bl = document.getElementById('budget-list'); if(!bl) return;
+            bl.innerHTML = budgets.length === 0 ? '<p style="text-align:center; opacity:0.3; padding: 20px;">Kosong</p>' : '';
+            budgets.forEach(b => {
+                const spent = transactions.filter(t => t.type === 'expense' && t.catIcon === b.icon).reduce((acc, curr) => acc + curr.amount, 0);
+                const percent = Math.min(Math.round((spent / b.limit) * 100), 100);
+                const color = percent > 90 ? 'var(--danger)' : 'var(--primary)';
+                bl.innerHTML += `<div class="chart-container" style="padding: 16px; margin-bottom: 12px;"><div class="flex"><b style="font-size:0.85rem">${b.icon} ${b.name}</b><span style="font-weight:900; color:${color}">${percent}%</span></div><div class="glow-bar" style="height: 8px;"><div style="height:100%; width:${percent}%; background: ${color}; box-shadow: 0 0 10px ${color}44;"></div></div><div class="flex" style="margin-top:10px; font-size:0.7rem; font-weight:700;"><span>${formatRupiah(spent)}</span><span class="text-muted">Limit: ${formatRupiah(b.limit)}</span></div><div style="text-align:right; margin-top:15px;"><button onclick="openConfirmModal('Hapus limit?', ()=>{deleteBudgetAction('${b.id}')})" style="background:none; border:none; color:var(--danger); font-weight:800; font-size:0.65rem; cursor:pointer;">HAPUS</button></div></div>`;
+            });
+        }
+
+        function renderCategoriesManage() {
+            const l = document.getElementById('categories-manage-list'); if(!l) return;
+            l.innerHTML = '';
+            categories.forEach((cat, idx) => {
+                l.innerHTML += `<div class="item-row"><span>${cat.icon} ${cat.name}</span>${idx > 5 ? `<button onclick="openConfirmModal('Hapus kategori?', ()=>{deleteCategoryAction(${idx})})" style="color:var(--danger); border:none; background:none; font-weight:800; cursor:pointer; font-size:10px;">HAPUS</button>` : '<small style="opacity:0.3; font-size:0.6rem;">SYSTEM</small>'}</div>`;
+            });
+        }
+
+        function renderWalletsManage() {
+            const l = document.getElementById('wallets-manage-list'); if(!l) return;
+            l.innerHTML = '';
+            wallets.forEach(w => {
+                l.innerHTML += `<div class="item-row"><span>🏦 ${w.name}</span><div style="display:flex; gap:12px;"><button onclick="openPromptModal('Update Saldo', ${w.balance}, (v)=>{updateWalletAction('${w.id}', v)})" style="color:var(--primary); border:none; background:none; font-weight:800; cursor:pointer; font-size:10px;">UPDATE</button><button onclick="openConfirmModal('Hapus dompet?', ()=>{deleteWalletAction('${w.id}')})" style="color:var(--danger); border:none; background:none; font-weight:800; cursor:pointer; font-size:10px;">HAPUS</button></div></div>`;
+            });
         }
 
         function updateReportChart() {
@@ -460,9 +581,16 @@
             const tOut = transactions.filter(t => t.type === 'expense').reduce((acc, curr) => acc + curr.amount, 0);
             const total = tIn + tOut;
             incValEl.innerText = formatRupiah(tIn); expValEl.innerText = formatRupiah(tOut);
-            if(total > 0) { const pi = Math.round((tIn/total)*100); const pe = Math.round((tOut/total)*100); if(incFill) incFill.style.width = pi+'%'; if(expFill) expFill.style.width = pe+'%'; if(incPercText) incPercText.innerText = pi+'%'; if(expPercText) expPercText.innerText = pe+'%'; }
+            if(total > 0) {
+                const pi = Math.round((tIn/total)*100); const pe = Math.round((tOut/total)*100);
+                if(incFill) incFill.style.width = pi+'%'; if(expFill) expFill.style.width = pe+'%';
+                if(incPercText) incPercText.innerText = pi+'%'; if(expPercText) expPercText.innerText = pe+'%';
+            }
         }
 
+        /**
+         * INTERACTIVE ACTIONS
+         */
         function deleteWalletAction(id) { wallets = wallets.filter(w => w.id != id); saveData(); updateUI(); }
         function updateWalletAction(id, val) { const w = wallets.find(x => x.id === id); if(w) w.balance = parseFormattedValue(val); saveData(); updateUI(); }
         function deleteCategoryAction(idx) { categories.splice(idx, 1); saveData(); updateUI(); renderPickers(); }
@@ -471,59 +599,122 @@
         function updateGoalAction(id, val) { const goal = goals.find(g => g.id == id); if(goal) goal.current = parseFormattedValue(val); saveData(); updateUI(); }
         function deleteGoalAction(id) { goals = goals.filter(g => g.id != id); saveData(); updateUI(); }
 
-        function renderBills() {
-            const ql = document.getElementById('quick-bill-list'); const fl = document.getElementById('quick-bill-list-full');
-            if(ql) ql.innerHTML = ''; if(fl) fl.innerHTML = '';
-            bills.sort((a,b) => new Date(a.date) - new Date(b.date)).forEach(b => { const item = `<div class="item-row" style="background:var(--card-bg); padding: 12px; border-radius: 1rem;"><div><b style="font-size:0.75rem;">${b.name}</b><br><small style="font-size:0.65rem;">${b.date}</small></div><div style="text-align:right;"><b style="font-size:0.75rem; display:block;">${formatRupiah(b.amount)}</b><div style="display:flex; gap:8px; align-items:center; margin-top:4px;"><button onclick="initPayment('${b.id}')" style="background:var(--success); border:none; color:white; font-size:0.6rem; padding:4px 10px; border-radius:8px; font-weight:900;">BAYAR</button><button onclick="openConfirmModal('Hapus tagihan?', ()=>{deleteBillAction('${b.id}')})" style="color:var(--danger); background:none; border:none; font-size:12px;">✕</button></div></div></div>`; if(ql) ql.innerHTML += item; if(fl) fl.innerHTML += item; });
-        }
-        function renderGoals() {
-            const gl = document.getElementById('goals-list'); if(!gl) return; gl.innerHTML = '';
-            goals.forEach(g => { const p = Math.min(Math.round((g.current/g.target)*100), 100); gl.innerHTML += `<div class="chart-container" style="padding: 16px; margin-bottom: 12px;"><div class="flex"><b>${g.name}</b><span style="font-weight:900; color:var(--primary);">${p}%</span></div><div class="glow-bar" style="height: 8px;"><div class="glow-fill-inc" style="width:${p}%"></div></div><div class="flex" style="margin-top:10px; font-size:0.7rem; font-weight:700;"><span>${formatRupiah(g.current)}</span><span class="text-muted">Target: ${formatRupiah(g.target)}</span></div><div style="text-align:right; margin-top:15px;"><button onclick="openPromptModal('Update Saldo', ${g.current}, (v)=>{updateGoalAction('${g.id}', v)})" style="background:none; border:none; color:var(--primary); font-weight:800; font-size:0.65rem; cursor:pointer;">UPDATE</button><button onclick="openConfirmModal('Hapus target?', ()=>{deleteGoalAction('${g.id}')})" style="background:none; border:none; color:var(--danger); font-weight:800; font-size:0.65rem; cursor:pointer; margin-left:12px;">HAPUS</button></div></div>`; });
-        }
-        function renderBudgets() {
-            const bl = document.getElementById('budget-list'); if(!bl) return; bl.innerHTML = '';
-            budgets.forEach(b => { const spent = transactions.filter(t => t.type === 'expense' && t.catIcon === b.icon).reduce((acc, curr) => acc + curr.amount, 0); const percent = Math.min(Math.round((spent / b.limit) * 100), 100); const color = percent > 90 ? 'var(--danger)' : 'var(--primary)'; bl.innerHTML += `<div class="chart-container" style="padding: 16px; margin-bottom: 12px;"><div class="flex"><b style="font-size:0.85rem">${b.icon} ${b.name}</b><span style="font-weight:900; color:${color}">${percent}%</span></div><div class="glow-bar" style="height: 8px;"><div style="height:100%; width:${percent}%; background: ${color}; box-shadow: 0 0 10px ${color}44;"></div></div><div class="flex" style="margin-top:10px; font-size:0.7rem; font-weight:700;"><span>${formatRupiah(spent)}</span><span class="text-muted">Limit: ${formatRupiah(b.limit)}</span></div><div style="text-align:right; margin-top:15px;"><button onclick="openConfirmModal('Hapus limit?', ()=>{deleteBudgetAction('${b.id}')})" style="background:none; border:none; color:var(--danger); font-weight:800; font-size:0.65rem; cursor:pointer;">HAPUS</button></div></div>`; });
-        }
-        function renderCategoriesManage() {
-            const l = document.getElementById('categories-manage-list'); if(!l) return; l.innerHTML = '';
-            categories.forEach((cat, idx) => { l.innerHTML += `<div class="item-row"><span>${cat.icon} ${cat.name}</span>${idx > 5 ? `<button onclick="openConfirmModal('Hapus kategori?', ()=>{deleteCategoryAction(${idx})})" style="color:var(--danger); border:none; background:none; font-weight:800; cursor:pointer; font-size:10px;">HAPUS</button>` : '<small style="opacity:0.3; font-size:0.6rem;">SYSTEM</small>'}</div>`; });
-        }
-        function renderWalletsManage() {
-            const l = document.getElementById('wallets-manage-list'); if(!l) return; l.innerHTML = '';
-            wallets.forEach(w => { l.innerHTML += `<div class="item-row"><span>${w.icon} ${w.name}</span><div style="display:flex; gap:12px;"><button onclick="openPromptModal('Update Saldo', ${w.balance}, (v)=>{updateWalletAction('${w.id}', v)})" style="color:var(--primary); border:none; background:none; font-weight:800; cursor:pointer; font-size:10px;">UPDATE</button><button onclick="openConfirmModal('Hapus dompet?', ()=>{deleteWalletAction('${w.id}')})" style="color:var(--danger); border:none; background:none; font-weight:800; cursor:pointer; font-size:10px;">HAPUS</button></div></div>`; });
+        function addNewWallet() {
+            const nameInput = document.getElementById('new-wallet-name'); const name = nameInput.value.trim();
+            if(!name) return showNotice("ISI NAMA DOMPET!");
+            wallets.push({ id: 'w_'+Date.now(), name: name.toUpperCase(), balance: 0 });
+            nameInput.value = ''; saveData(); updateUI(); showNotice("DOMPET DITAMBAH!");
         }
 
-        function addNewCategory() { const n = document.getElementById('new-cat-name').value.trim(); const i = document.getElementById('new-cat-icon').value; if(!n) return showNotice("ISI NAMA!"); categories.push({ icon: i, name: n.substring(0, 10) }); saveData(); updateUI(); renderPickers(); document.getElementById('new-cat-name').value = ''; showNotice("DITAMBAH!"); }
+        function addNewCategory() {
+            const nInput = document.getElementById('new-cat-name'); const iInput = document.getElementById('new-cat-icon');
+            const n = nInput.value.trim(); const i = iInput.value;
+            if(!n) return showNotice("ISI NAMA!");
+            categories.push({ icon: i, name: n.substring(0, 10) });
+            nInput.value = ''; saveData(); updateUI(); renderPickers(); showNotice("DITAMBAH!");
+        }
+
         function setTxMode(m) { currentTxMode = m; ['income', 'expense', 'transfer'].forEach(x => { const b = document.getElementById('btn-m-'+x); if(b) b.style.opacity = (x==m ? 1 : 0.4); }); const twc = document.getElementById('to-wallet-container'); if(twc) twc.classList.toggle('hide', m!=='transfer'); }
-        function processTransaction() { const amount = parseFormattedValue(document.getElementById('amount').value); const desc = document.getElementById('desc').value.trim(); const wId = document.getElementById('wallet-select').value; if(amount <= 0) return showNotice("ISI NOMINAL!"); const w = wallets.find(x => x.id === wId); if(currentTxMode == 'income') w.balance += amount; else if(currentTxMode == 'expense') w.balance -= amount; else if(currentTxMode == 'transfer') { const toId = document.getElementById('wallet-to-select').value; const toW = wallets.find(x => x.id === toId); if(!toW || toId === wId) return showNotice("PILIH TUJUAN!"); w.balance -= amount; toW.balance += amount; } transactions.push({ id: Date.now(), desc: desc.toUpperCase(), amount, type: currentTxMode, wallet: w.name, catIcon: selectedTxCategory.icon, catName: selectedTxCategory.name, date: new Date().toLocaleDateString('id-ID'), timestamp: Date.now() }); saveData(); updateUI(); document.getElementById('desc').value = ''; document.getElementById('amount').value = ''; showNotice("TERSIMPAN!"); }
-        function saveBudget() { const limit = parseFormattedValue(document.getElementById('budget-limit').value); if(limit <= 0) return showNotice("ISI LIMIT!"); const exists = budgets.findIndex(b => b.icon === selectedBudgetCategory.icon); if(exists !== -1) budgets[exists].limit = limit; else budgets.push({ id: Date.now(), icon: selectedBudgetCategory.icon, name: selectedBudgetCategory.name, limit: limit }); saveData(); updateUI(); document.getElementById('budget-limit').value = ''; showNotice("ANGGARAN DIKUNCI!"); }
-        function addNewGoal() { const name = document.getElementById('goal-name').value.trim(); const target = parseFormattedValue(document.getElementById('goal-target').value); if(!name || target <= 0) return showNotice("ISI DATA!"); goals.push({ id: Date.now(), name: name.toUpperCase(), target, current: 0 }); saveData(); updateUI(); document.getElementById('goal-name').value = ''; document.getElementById('goal-target').value = ''; showNotice("TARGET DIBUAT!"); }
-        function addNewBill() { const name = document.getElementById('bill-name').value; const date = document.getElementById('bill-date').value; const amount = parseFormattedValue(document.getElementById('bill-amount').value); if(!name || !date) return showNotice("LENGKAPI FORM!"); bills.push({ id: Date.now(), name: name.toUpperCase(), date, amount }); saveData(); updateUI(); document.getElementById('bill-name').value = ''; document.getElementById('bill-amount').value = ''; }
-        function initPayment(id) { pendingBill = bills.find(x => x.id == id); document.getElementById('pay-detail').innerText = `${pendingBill.name} (${formatRupiah(pendingBill.amount)})`; const sel = document.getElementById('pay-wallet-select'); if(sel) { sel.innerHTML = ''; wallets.forEach(w => sel.innerHTML += `<option value="${w.id}">${w.icon} ${w.name} (${formatRupiah(w.balance)})</option>`); } toggleModal('pay-confirm-modal'); }
-        function confirmPayment() { const wId = document.getElementById('pay-wallet-select').value; const w = wallets.find(x => x.id === wId); w.balance -= pendingBill.amount; transactions.push({ id: Date.now(), desc: `BAYAR: ${pendingBill.name}`, amount: pendingBill.amount, type: 'expense', wallet: w.name, catIcon: '💡', catName: 'Tagihan', date: new Date().toLocaleDateString('id-ID'), timestamp: Date.now() }); const d = new Date(pendingBill.date); d.setMonth(d.getMonth() + 1); pendingBill.date = d.toISOString().split('T')[0]; saveData(); updateUI(); toggleModal('pay-confirm-modal'); showNotice("SUKSES!"); }
-        function updateProfile() { const dn = document.getElementById('edit-name').value.trim(); const u = document.getElementById('edit-user').value.trim(); const p = document.getElementById('edit-pass').value.trim(); if(!u) return showNotice("USERNAME WAJIB!"); currentUser.username = u; currentUser.displayName = dn; if(p) currentUser.password = p; const idx = users.findIndex(us => us.id === currentUser.id); if(idx!==-1) users[idx] = currentUser; localStorage.setItem('kf_current_session', JSON.stringify(currentUser)); saveData(); loadUserData(); showNotice("DIPERBARUI!"); }
-        function clearHistory() { transactions = []; saveData(); updateUI(); showNotice("DIBERSIHKAN!"); }
+        
+        function processTransaction() {
+            const amount = parseFormattedValue(document.getElementById('amount').value);
+            const desc = document.getElementById('desc').value.trim();
+            const wId = document.getElementById('wallet-select').value;
+            if(amount <= 0) return showNotice("ISI NOMINAL!");
+            const w = wallets.find(x => x.id === wId);
+            if(currentTxMode == 'income') w.balance += amount;
+            else if(currentTxMode == 'expense') w.balance -= amount;
+            else if(currentTxMode == 'transfer') {
+                const toId = document.getElementById('wallet-to-select').value;
+                const toW = wallets.find(x => x.id === toId);
+                if(!toW || toId === wId) return showNotice("PILIH TUJUAN!");
+                w.balance -= amount; toW.balance += amount;
+            }
+            transactions.push({ id: Date.now(), desc: desc.toUpperCase(), amount, type: currentTxMode, wallet: w.name, catIcon: selectedTxCategory.icon, catName: selectedTxCategory.name, date: new Date().toLocaleDateString('id-ID'), timestamp: Date.now() });
+            saveData(); updateUI();
+            document.getElementById('desc').value = ''; document.getElementById('amount').value = '';
+            showNotice("TERSIMPAN!");
+        }
+
+        function addNewGoal() {
+            const nInput = document.getElementById('goal-name'); const tInput = document.getElementById('goal-target');
+            const n = nInput.value.trim(); const t = parseFormattedValue(tInput.value);
+            if(!n || t <= 0) return showNotice("ISI DATA!");
+            goals.push({ id: 'g_'+Date.now(), name: n.toUpperCase(), target: t, current: 0 });
+            nInput.value = ''; tInput.value = ''; saveData(); updateUI(); showNotice("TARGET DIBUAT!");
+        }
+
+        function saveBudget() {
+            const lInput = document.getElementById('budget-limit'); const limit = parseFormattedValue(lInput.value);
+            if(limit <= 0) return showNotice("ISI LIMIT!");
+            const exists = budgets.findIndex(b => b.icon === selectedBudgetCategory.icon);
+            if(exists !== -1) budgets[exists].limit = limit;
+            else budgets.push({ id: 'b_'+Date.now(), icon: selectedBudgetCategory.icon, name: selectedBudgetCategory.name, limit: limit });
+            lInput.value = ''; saveData(); updateUI(); showNotice("LIMIT DIKUNCI!");
+        }
+
+        function updateProfile() {
+            const dn = document.getElementById('edit-name').value.trim(); const u = document.getElementById('edit-user').value.trim(); const p = document.getElementById('edit-pass').value.trim();
+            if(!u) return showNotice("USERNAME WAJIB!");
+            currentUser.username = u; currentUser.displayName = dn; if(p) currentUser.password = p;
+            const idx = users.findIndex(us => us.id === currentUser.id); if(idx !== -1) users[idx] = currentUser;
+            localStorage.setItem('kf_current_session', JSON.stringify(currentUser));
+            saveData(); loadUserData(); showNotice("DIPERBARUI!");
+        }
+
+        function addNewBill() {
+            const nInput = document.getElementById('bill-name'); const dInput = document.getElementById('bill-date'); const aInput = document.getElementById('bill-amount');
+            const n = nInput.value; const d = dInput.value; const a = parseFormattedValue(aInput.value);
+            if(!n || !d) return showNotice("LENGKAPI FORM!");
+            bills.push({ id: 'bl_'+Date.now(), name: n.toUpperCase(), date: d, amount: a });
+            saveData(); updateUI(); showNotice("TAGIHAN DISIMPAN!");
+            nInput.value = ''; aInput.value = '';
+        }
+
+        function initPayment(id) {
+            pendingBill = bills.find(x => x.id == id);
+            document.getElementById('pay-detail').innerText = `${pendingBill.name} (${formatRupiah(pendingBill.amount)})`;
+            const sel = document.getElementById('pay-wallet-select');
+            if(sel) {
+                sel.innerHTML = '';
+                wallets.forEach(w => sel.innerHTML += `<option value="${w.id}">${w.name} (${formatRupiah(w.balance)})</option>`);
+            }
+            toggleModal('pay-confirm-modal');
+        }
+
+        function confirmPayment() {
+            const wId = document.getElementById('pay-wallet-select').value; const w = wallets.find(x => x.id === wId);
+            w.balance -= pendingBill.amount;
+            transactions.push({ id: Date.now(), desc: `BAYAR: ${pendingBill.name}`, amount: pendingBill.amount, type: 'expense', wallet: w.name, catIcon: '💡', catName: 'Tagihan', date: new Date().toLocaleDateString('id-ID'), timestamp: Date.now() });
+            const d = new Date(pendingBill.date); d.setMonth(d.getMonth() + 1); pendingBill.date = d.toISOString().split('T')[0];
+            saveData(); updateUI(); toggleModal('pay-confirm-modal'); showNotice("LUNAS!");
+        }
+
+        function clearHistory() { transactions = []; saveData(); updateUI(); showNotice("LOG DIBERSIHKAN!"); }
+
+        /**
+         * SYSTEM CORE & EVENT LISTENERS
+         */
+        function openConfirmModal(msg, callback) { document.getElementById('confirm-msg').innerText = msg; confirmCallbackFn = callback; toggleModal('modal-confirm'); }
+        function closeConfirm(result) { toggleModal('modal-confirm'); if(result && confirmCallbackFn) confirmCallbackFn(); confirmCallbackFn = null; }
+        function openPromptModal(title, defaultVal, callback) { document.getElementById('prompt-title').innerText = title; document.getElementById('prompt-input').value = defaultVal.toLocaleString('id-ID'); promptCallbackFn = callback; toggleModal('modal-prompt'); }
+        function closePrompt(result) { const val = document.getElementById('prompt-input').value; toggleModal('modal-prompt'); if(result && promptCallbackFn) promptCallbackFn(val); promptCallbackFn = null; }
+        function closeExitModal(confirmExit) { toggleModal('modal-exit'); if(confirmExit) { showNotice("Sesi ditutup."); } }
 
         function renderPickers() {
-            const tp = document.getElementById('tx-icon-picker'); if(tp){ tp.innerHTML = ''; categories.forEach(cat => { const d = document.createElement('div'); d.className = `category-item ${cat.icon === (selectedTxCategory ? selectedTxCategory.icon : '') ? 'selected' : ''}`; d.innerHTML = `<span>${cat.icon}</span><span>${cat.name}</span>`; d.onclick = () => { selectedTxCategory = cat; renderPickers(); }; tp.appendChild(d); }); }
-            const bp = document.getElementById('budget-icon-picker'); if(bp){ bp.innerHTML = ''; categories.forEach(cat => { const d = document.createElement('div'); d.className = `category-item ${cat.icon === (selectedBudgetCategory ? selectedBudgetCategory.icon : '') ? 'selected' : ''}`; d.innerHTML = `<span>${cat.icon}</span><span>${cat.name}</span>`; d.onclick = () => { selectedBudgetCategory = cat; renderPickers(); }; bp.appendChild(d); }); }
+            const tp = document.getElementById('tx-icon-picker'); if(tp){ tp.innerHTML = ''; categories.forEach(cat => { const d = document.createElement('div'); d.className = `category-item ${cat.icon === selectedTxCategory.icon ? 'selected' : ''}`; d.innerHTML = `<span>${cat.icon}</span><span>${cat.name}</span>`; d.onclick = () => { selectedTxCategory = cat; renderPickers(); }; tp.appendChild(d); }); }
+            const bp = document.getElementById('budget-icon-picker'); if(bp){ bp.innerHTML = ''; categories.forEach(cat => { const d = document.createElement('div'); d.className = `category-item ${cat.icon === selectedBudgetCategory.icon ? 'selected' : ''}`; d.innerHTML = `<span>${cat.icon}</span><span>${cat.name}</span>`; d.onclick = () => { selectedBudgetCategory = cat; renderPickers(); }; bp.appendChild(d); }); }
         }
-
-        function openConfirmModal(msg, callback) { document.getElementById('confirm-msg').innerText = msg; confirmCallbackFn = callback; toggleModal('modal-confirm'); }
-        function closeConfirm(result) { toggleModal('modal-confirm'); if (result && confirmCallbackFn) confirmCallbackFn(); confirmCallbackFn = null; }
-        function openPromptModal(title, defaultVal, callback) { document.getElementById('prompt-title').innerText = title; document.getElementById('prompt-input').value = defaultVal.toLocaleString('id-ID'); promptCallbackFn = callback; toggleModal('modal-prompt'); }
-        function closePrompt(result) { const val = document.getElementById('prompt-input').value; toggleModal('modal-prompt'); if (result && promptCallbackFn) promptCallbackFn(val); promptCallbackFn = null; }
-        function closeExitModal(confirmExit) { toggleModal('modal-exit'); if (confirmExit) { window.close(); } }
 
         function initHistorySystem() {
             window.history.pushState({ view: activeView }, "");
-            window.onpopstate = function(event) {
+            window.onpopstate = function() {
                 const activeEl = document.activeElement;
-                if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
+                if(activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
                     activeEl.blur(); window.history.pushState({ view: activeView }, ""); return;
                 }
-                if (currentUser) {
-                    if (activeView !== 'finance') { switchView('finance'); window.history.pushState({ view: 'finance' }, ""); }
+                if(currentUser) {
+                    if(activeView !== 'finance') { switchView('finance'); window.history.pushState({ view: 'finance' }, ""); }
                     else { toggleModal('modal-exit'); window.history.pushState({ view: 'finance' }, ""); }
                 } else { toggleModal('modal-exit'); window.history.pushState({ view: 'login' }, ""); }
             };
@@ -531,20 +722,26 @@
 
         function initApp() { 
             setInterval(() => { const cd = document.getElementById('clock-display'); if(cd) cd.innerText = new Date().toLocaleTimeString('id-ID'); }, 1000); 
-            loadUserData(); updateUI(); renderPickers(); initHistorySystem(); 
+            updateUI(); renderPickers(); initHistorySystem(); 
         }
 
-        window.addEventListener("scroll", function() { let st = window.pageYOffset || document.documentElement.scrollTop; const nav = document.getElementById('bottom-nav'); if (nav) { if (st > lastScrollTop && st > 50) nav.classList.add('nav-hidden'); else nav.classList.remove('nav-hidden'); } lastScrollTop = st <= 0 ? 0 : st; }, false);
+        // Attach global window handlers explicitly at the end to be safe
+        window.handleLogin = handleLogin; window.applyTheme = applyTheme; window.switchView = switchView; window.toggleModal = toggleModal; window.setTxMode = setTxMode; window.formatAmountInput = formatAmountInput; window.processTransaction = processTransaction; window.addNewGoal = addNewGoal; window.saveBudget = saveBudget; window.updateProfile = updateProfile; window.addNewWallet = addNewWallet; window.addNewCategory = addNewCategory; window.handleLogout = handleLogout; window.closeConfirm = closeConfirm; window.closePrompt = closePrompt; window.closeExitModal = closeExitModal; window.addNewBill = addNewBill; window.confirmPayment = confirmPayment;
+
         window.onload = () => { 
             const session = localStorage.getItem('kf_current_session'); 
             if(session) { 
-                currentUser = JSON.parse(session); 
-                document.getElementById('login-screen').classList.add('hide'); 
-                document.getElementById('main-app').classList.remove('hide'); 
-                initApp(); 
-                if(localStorage.getItem('kf_theme') === 'dark') { applyTheme(true); const dmt = document.getElementById('dark-mode-toggle'); if(dmt) dmt.checked = true; } 
-            } else { initHistorySystem(); }
+                try {
+                    currentUser = JSON.parse(session); 
+                    document.getElementById('login-screen').classList.add('hide'); 
+                    document.getElementById('main-app').classList.remove('hide'); 
+                    loadUserData(); initApp(); 
+                    if(localStorage.getItem('kf_theme') === 'dark') { applyTheme(true); const dmt = document.getElementById('dark-mode-toggle'); if(dmt) dmt.checked = true; } 
+                } catch(e){ localStorage.removeItem('kf_current_session'); }
+            } else initHistorySystem();
         };
+
+        window.addEventListener("scroll", function() { let st = window.pageYOffset || document.documentElement.scrollTop; const nav = document.getElementById('bottom-nav'); if (nav) { if (st > lastScrollTop && st > 50) nav.classList.add('nav-hidden'); else nav.classList.remove('nav-hidden'); } lastScrollTop = st <= 0 ? 0 : st; }, false);
     </script>
 </body>
 </html>
